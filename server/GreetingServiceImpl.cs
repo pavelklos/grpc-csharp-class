@@ -35,5 +35,20 @@ namespace server
 
             //return base.GreetManyTimes(request, responseStream, context);
         }
+
+        public override async Task<LongGreetResponse> LongGreet(IAsyncStreamReader<LongGreetRequest> requestStream, ServerCallContext context)
+        {
+            string result = "";
+
+            while (await requestStream.MoveNext())
+            {
+                Greeting greeting = requestStream.Current.Greeting;
+                result += $"Hello {greeting.FirstName} {greeting.LastName} {Environment.NewLine}";
+            }
+
+            return new LongGreetResponse() { Result = result };
+
+            //return base.LongGreet(requestStream, context);
+        }
     }
 }
