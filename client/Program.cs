@@ -40,20 +40,22 @@ namespace client
             //    LastName = "Jean"
             //};
 
+            //******************************************************************
+            // Unary API
+            //******************************************************************
             //var request = new GreetingRequest() { Greeting = greeting };
-
             //var response = client.Greet(request);
-
             //Console.WriteLine(response.Result);
 
+            //******************************************************************
+            // Calculator API
+            //******************************************************************
             //var client = new CalculatorService.CalculatorServiceClient(channel);
-
             //var request = new SumRequest()
             //{
             //    A = 3,
             //    B = 10
             //};
-
             //var response = client.Sum(request);
             //Console.WriteLine(response.Result);
 
@@ -79,14 +81,35 @@ namespace client
             //******************************************************************
             // PrimeNumberDecomposition API
             //******************************************************************
-            var client = new PrimeNumberService.PrimeNumberServiceClient(channel);
-            var request = new PrimeNumberDecompositionRequest() { Number = 120 };
-            var response = client.PrimeNumberDecomposition(request);
-            while (await response.ResponseStream.MoveNext())
+            //var client = new PrimeNumberService.PrimeNumberServiceClient(channel);
+            //var request = new PrimeNumberDecompositionRequest() { Number = 120 };
+            //var response = client.PrimeNumberDecomposition(request);
+            //while (await response.ResponseStream.MoveNext())
+            //{
+            //    Console.WriteLine(response.ResponseStream.Current.PrimeFactor);
+            //    await Task.Delay(200);
+            //}
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //******************************************************************
+            // Streaming Client API
+            //******************************************************************
+            var client = new GreetingService.GreetingServiceClient(channel);
+            var greeting = new Greeting()
             {
-                Console.WriteLine(response.ResponseStream.Current.PrimeFactor);
-                await Task.Delay(200);
+                FirstName = "Clement",
+                LastName = "Jean"
+            };
+            var request = new LongGreetRequest() { Greeting = greeting };
+            var stream = client.LongGreet();
+            foreach (int i in Enumerable.Range(1, 10))
+            {
+                await stream.RequestStream.WriteAsync(request);
             }
+            await stream.RequestStream.CompleteAsync();
+            var response = await stream.ResponseAsync;
+            Console.WriteLine(response.Result);
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
         }

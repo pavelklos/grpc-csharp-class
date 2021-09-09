@@ -26,9 +26,9 @@ namespace server
             {
                 server = new Server()
                 {
-                    //Services = { GreetingService.BindService(new GreetingServiceImpl()) },
+                    Services = { GreetingService.BindService(new GreetingServiceImpl()) },
                     //Services = { CalculatorService.BindService(new CalculatorServiceImpl()) },
-                    Services = { PrimeNumberService.BindService(new PrimeNumberServiceImpl()) },
+                    //Services = { PrimeNumberService.BindService(new PrimeNumberServiceImpl()) },
                     Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
                 };
 
