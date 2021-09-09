@@ -1,4 +1,5 @@
-﻿using Calculator;
+﻿using Average;
+using Calculator;
 using Greet;
 using Grpc.Core;
 using Prime;
@@ -16,7 +17,7 @@ namespace server
         const int Port = 50051;
         //const int Port = 50052;
 
-        public static object CalculatorServiceImplervice { get; private set; }
+        //public static object CalculatorServiceImplervice { get; private set; }
 
         static void Main(string[] args)
         {
@@ -26,9 +27,10 @@ namespace server
             {
                 server = new Server()
                 {
-                    Services = { GreetingService.BindService(new GreetingServiceImpl()) },
+                    //Services = { GreetingService.BindService(new GreetingServiceImpl()) },
                     //Services = { CalculatorService.BindService(new CalculatorServiceImpl()) },
                     //Services = { PrimeNumberService.BindService(new PrimeNumberServiceImpl()) },
+                    Services = { AverageService.BindService(new AverageServiceImpl()) },
                     Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
                 };
 

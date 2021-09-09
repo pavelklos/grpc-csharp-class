@@ -1,4 +1,5 @@
-﻿using Calculator;
+﻿using Average;
+using Calculator;
 using Dummy;
 using Greet;
 using Grpc.Core;
@@ -95,16 +96,32 @@ namespace client
             //******************************************************************
             // Streaming Client API
             //******************************************************************
-            var client = new GreetingService.GreetingServiceClient(channel);
-            var greeting = new Greeting()
+            //var client = new GreetingService.GreetingServiceClient(channel);
+            //var greeting = new Greeting()
+            //{
+            //    FirstName = "Clement",
+            //    LastName = "Jean"
+            //};
+            //var request = new LongGreetRequest() { Greeting = greeting };
+            //var stream = client.LongGreet();
+            //foreach (int i in Enumerable.Range(1, 10))
+            //{
+            //    await stream.RequestStream.WriteAsync(request);
+            //}
+            //await stream.RequestStream.CompleteAsync();
+            //var response = await stream.ResponseAsync;
+            //Console.WriteLine(response.Result);
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //******************************************************************
+            // Average API
+            //******************************************************************
+            var client = new AverageService.AverageServiceClient(channel);
+            var stream = client.ComputeAverage();
+            foreach (int number in Enumerable.Range(1, 4))
             {
-                FirstName = "Clement",
-                LastName = "Jean"
-            };
-            var request = new LongGreetRequest() { Greeting = greeting };
-            var stream = client.LongGreet();
-            foreach (int i in Enumerable.Range(1, 10))
-            {
+                var request = new AverageRequest() { Number = number };
                 await stream.RequestStream.WriteAsync(request);
             }
             await stream.RequestStream.CompleteAsync();

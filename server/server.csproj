@@ -71,6 +71,7 @@
     <Protobuf Include="../*.proto" OutputDir="%(RelativePath)models" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AverageServiceImpl.cs" />
     <Compile Include="CalculatorServiceImpl.cs" />
     <Compile Include="GreetingServiceImpl.cs" />
     <Compile Include="PrimeNumberServiceImpl.cs" />
