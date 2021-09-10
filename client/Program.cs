@@ -117,18 +117,79 @@ namespace client
             //******************************************************************
             // Average API
             //******************************************************************
-            var client = new AverageService.AverageServiceClient(channel);
-            var stream = client.ComputeAverage();
-            foreach (int number in Enumerable.Range(1, 4))
-            {
-                var request = new AverageRequest() { Number = number };
-                await stream.RequestStream.WriteAsync(request);
-            }
-            await stream.RequestStream.CompleteAsync();
-            var response = await stream.ResponseAsync;
-            Console.WriteLine(response.Result);
+            //var client = new AverageService.AverageServiceClient(channel);
+            //var stream = client.ComputeAverage();
+            //foreach (int number in Enumerable.Range(1, 4))
+            //{
+            //    var request = new AverageRequest() { Number = number };
+            //    await stream.RequestStream.WriteAsync(request);
+            //}
+            //await stream.RequestStream.CompleteAsync();
+            //var response = await stream.ResponseAsync;
+            //Console.WriteLine(response.Result);
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //TODO:
+            var client = new GreetingService.GreetingServiceClient(channel);
+            //DoSimpleGreet(client);
+            //await DoManyGreetings(client);
+            //await DoLongGreet(client);
+
+            //******************************************************************
+            // Bi Directional 'BiDi' Streaming API
+            //******************************************************************
+
+            await DoGreetEveryone(client);
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
         }
+
+        // 3x TODO:
+        public static void DoSimpleGreet(GreetingService.GreetingServiceClient client)
+        {
+            //TODO:
+        }
+        public static async Task DoManyGreetings(GreetingService.GreetingServiceClient client)
+        {
+            //TODO:
+        }
+        public static async Task DoLongGreet(GreetingService.GreetingServiceClient client)
+        {
+            //TODO:
+        }
+
+        public static async Task DoGreetEveryone(GreetingService.GreetingServiceClient client)
+        {
+            var stream = client.GreetEveryone();
+
+            var responseReaderTask = Task.Run(async () =>
+            {
+                while (await stream.ResponseStream.MoveNext())
+                {
+                    Console.WriteLine($"Received : {stream.ResponseStream.Current.Result}");
+                }
+            });
+
+            Greeting[] greetings =
+            {
+                new Greeting() { FirstName = "John", LastName = "Doe" },
+                new Greeting() { FirstName = "Clement", LastName = "Jean" },
+                new Greeting() { FirstName = "Patricia", LastName = "Hertz" },
+            };
+
+            foreach (var greeting in greetings)
+            {
+                Console.WriteLine($"Sending : {greeting.ToString()}");
+                await stream.RequestStream.WriteAsync(new GreetEveryoneRequest()
+                {
+                    Greeting = greeting
+                });
+            }
+
+            await stream.RequestStream.CompleteAsync();
+            await responseReaderTask;
+        }
+
     }
 }

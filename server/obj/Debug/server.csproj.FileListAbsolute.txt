@@ -26,4 +26,3 @@ C:\repos\grpc-csharp-class\server\bin\Debug\System.Runtime.CompilerServices.Unsa
 C:\repos\grpc-csharp-class\server\obj\Debug\server.csproj.CopyComplete
 C:\repos\grpc-csharp-class\server\obj\Debug\server.exe
 C:\repos\grpc-csharp-class\server\obj\Debug\server.pdb
-C:\repos\grpc-csharp-class\server\obj\Debug\server.csproj.AssemblyReference.cache

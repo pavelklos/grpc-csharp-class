@@ -62,7 +62,8 @@ namespace server
                 Console.WriteLine($"Sending : {result}");
 
                 // Received
-                await responseStream.WriteAsync(new GreetEveryoneResponse() { Result = $"Received : {result}" });
+                //await responseStream.WriteAsync(new GreetEveryoneResponse() { Result = $"Received : {result}" });
+                await responseStream.WriteAsync(new GreetEveryoneResponse() { Result = result });
             }
 
             //return base.GreetEveryone(requestStream, responseStream, context);
