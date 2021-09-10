@@ -3,6 +3,7 @@ using Calculator;
 using Dummy;
 using Greet;
 using Grpc.Core;
+using Max;
 using Prime;
 using System;
 using System.Collections.Generic;
@@ -130,17 +131,38 @@ namespace client
             //channel.ShutdownAsync().Wait();
             //Console.ReadKey();
 
-            //TODO:
-            var client = new GreetingService.GreetingServiceClient(channel);
-            //DoSimpleGreet(client);
-            //await DoManyGreetings(client);
-            //await DoLongGreet(client);
 
             //******************************************************************
             // Bi Directional 'BiDi' Streaming API
             //******************************************************************
+            //TODO:
+            //var client = new GreetingService.GreetingServiceClient(channel);
+            //DoSimpleGreet(client);
+            //await DoManyGreetings(client);
+            //await DoLongGreet(client);
+            //await DoGreetEveryone(client);
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
 
-            await DoGreetEveryone(client);
+            //******************************************************************
+            // Max API
+            //******************************************************************
+            var client = new FindMaxService.FindMaxServiceClient(channel);
+            var stream = client.FindMaximum();
+            var responseReaderTask = Task.Run(async () =>
+            {
+                while (await stream.ResponseStream.MoveNext())
+                {
+                    Console.WriteLine($"Max : {stream.ResponseStream.Current.Max}");
+                }
+            });
+            int[] numbers = { 1, 5, 3, 6, 2, 20 };
+            foreach (int number in numbers)
+            {
+                await stream.RequestStream.WriteAsync(new FindMaxRequest() { Number = number });
+            }
+            await stream.RequestStream.CompleteAsync();
+            await responseReaderTask;
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
         }

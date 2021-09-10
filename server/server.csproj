@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AverageServiceImpl.cs" />
     <Compile Include="CalculatorServiceImpl.cs" />
+    <Compile Include="FindMaxServiceImpl.cs" />
     <Compile Include="GreetingServiceImpl.cs" />
     <Compile Include="PrimeNumberServiceImpl.cs" />
     <Compile Include="Program.cs" />
