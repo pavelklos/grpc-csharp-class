@@ -4,6 +4,7 @@ using Greet;
 using Grpc.Core;
 using Max;
 using Prime;
+using Sqrt;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +33,8 @@ namespace server
                     //Services = { CalculatorService.BindService(new CalculatorServiceImpl()) },
                     //Services = { PrimeNumberService.BindService(new PrimeNumberServiceImpl()) },
                     //Services = { AverageService.BindService(new AverageServiceImpl()) },
-                    Services = { FindMaxService.BindService(new FindMaxServiceImpl()) },
+                    //Services = { FindMaxService.BindService(new FindMaxServiceImpl()) },
+                    Services = { SqrtService.BindService(new SqrtServiceImpl()) },
                     Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
                 };
 

@@ -5,6 +5,7 @@ using Greet;
 using Grpc.Core;
 using Max;
 using Prime;
+using Sqrt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,22 +148,41 @@ namespace client
             //******************************************************************
             // Max API
             //******************************************************************
-            var client = new FindMaxService.FindMaxServiceClient(channel);
-            var stream = client.FindMaximum();
-            var responseReaderTask = Task.Run(async () =>
+            //var client = new FindMaxService.FindMaxServiceClient(channel);
+            //var stream = client.FindMaximum();
+            //var responseReaderTask = Task.Run(async () =>
+            //{
+            //    while (await stream.ResponseStream.MoveNext())
+            //    {
+            //        Console.WriteLine($"Max : {stream.ResponseStream.Current.Max}");
+            //    }
+            //});
+            //int[] numbers = { 1, 5, 3, 6, 2, 20 };
+            //foreach (int number in numbers)
+            //{
+            //    await stream.RequestStream.WriteAsync(new FindMaxRequest() { Number = number });
+            //}
+            //await stream.RequestStream.CompleteAsync();
+            //await responseReaderTask;
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //******************************************************************
+            // Sqrt API
+            //******************************************************************
+            var client = new SqrtService.SqrtServiceClient(channel);
+            int number = -1; // number = 16 [OK], -1 [ERROR]
+            try
             {
-                while (await stream.ResponseStream.MoveNext())
-                {
-                    Console.WriteLine($"Max : {stream.ResponseStream.Current.Max}");
-                }
-            });
-            int[] numbers = { 1, 5, 3, 6, 2, 20 };
-            foreach (int number in numbers)
-            {
-                await stream.RequestStream.WriteAsync(new FindMaxRequest() { Number = number });
+                var request = new SqrtRequest() { Number = number };
+                var response = client.sqrt(request);
+                Console.WriteLine($"Sqrt : {response.SquareRoot}");
             }
-            await stream.RequestStream.CompleteAsync();
-            await responseReaderTask;
+            catch (RpcException e)
+            {
+                Console.WriteLine($"Error : {e.Status.Detail}");
+                //throw;
+            }
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
         }
