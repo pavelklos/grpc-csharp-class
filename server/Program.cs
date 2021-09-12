@@ -29,12 +29,12 @@ namespace server
             {
                 server = new Server()
                 {
-                    //Services = { GreetingService.BindService(new GreetingServiceImpl()) },
+                    Services = { GreetingService.BindService(new GreetingServiceImpl()) },
                     //Services = { CalculatorService.BindService(new CalculatorServiceImpl()) },
                     //Services = { PrimeNumberService.BindService(new PrimeNumberServiceImpl()) },
                     //Services = { AverageService.BindService(new AverageServiceImpl()) },
                     //Services = { FindMaxService.BindService(new FindMaxServiceImpl()) },
-                    Services = { SqrtService.BindService(new SqrtServiceImpl()) },
+                    //Services = { SqrtService.BindService(new SqrtServiceImpl()) },
                     Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
                 };
 

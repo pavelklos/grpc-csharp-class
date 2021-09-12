@@ -170,17 +170,37 @@ namespace client
             //******************************************************************
             // Sqrt API
             //******************************************************************
-            var client = new SqrtService.SqrtServiceClient(channel);
-            int number = -1; // number = 16 [OK], -1 [ERROR]
+            //var client = new SqrtService.SqrtServiceClient(channel);
+            //int number = -1; // number = 16 [OK], -1 [ERROR]
+            //try
+            //{
+            //    var request = new SqrtRequest() { Number = number };
+            //    var response = client.sqrt(request);
+            //    Console.WriteLine($"Sqrt : {response.SquareRoot}");
+            //}
+            //catch (RpcException e)
+            //{
+            //    Console.WriteLine($"Error : {e.Status.Detail}");
+            //    //throw;
+            //}
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //******************************************************************
+            // Deadlines
+            //******************************************************************
+            var client = new GreetingService.GreetingServiceClient(channel);
             try
             {
-                var request = new SqrtRequest() { Number = number };
-                var response = client.sqrt(request);
-                Console.WriteLine($"Sqrt : {response.SquareRoot}");
+                var request = new GreetDeadlinesRequest() { Name = "John" };
+                var response = client.GreetDeadlines(request,
+                    deadline: DateTime.UtcNow.AddMilliseconds(100)); // 500 [OK], 100 [DEADLINE]
+                Console.WriteLine(response.Result);
             }
-            catch (RpcException e)
+            catch (RpcException e) when (e.StatusCode == StatusCode.DeadlineExceeded)
             {
                 Console.WriteLine($"Error : {e.Status.Detail}");
+
                 //throw;
             }
             channel.ShutdownAsync().Wait();

@@ -68,5 +68,14 @@ namespace server
 
             //return base.GreetEveryone(requestStream, responseStream, context);
         }
+
+        public override async Task<GreetDeadlinesResponse> GreetDeadlines(GreetDeadlinesRequest request, ServerCallContext context)
+        {
+            await Task.Delay(300);
+
+            return new GreetDeadlinesResponse() { Result = $"Hello {request.Name}" };
+
+            // return base.GreetDeadlines(request, context);
+        }
     }
 }
