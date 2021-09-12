@@ -27,6 +27,13 @@ namespace server
 
             try
             {
+                // SSL Security
+                var caCrt = File.ReadAllText("ssl/ca.crt");
+                var serverCrt = File.ReadAllText("ssl/server.crt");
+                var serverKey = File.ReadAllText("ssl/server.key");
+                var keypair = new KeyCertificatePair(serverCrt, serverKey);
+                var credentials = new SslServerCredentials(new List<KeyCertificatePair>() { keypair }, caCrt, true);
+
                 server = new Server()
                 {
                     Services = { GreetingService.BindService(new GreetingServiceImpl()) },
@@ -35,7 +42,8 @@ namespace server
                     //Services = { AverageService.BindService(new AverageServiceImpl()) },
                     //Services = { FindMaxService.BindService(new FindMaxServiceImpl()) },
                     //Services = { SqrtService.BindService(new SqrtServiceImpl()) },
-                    Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
+                    //Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
+                    Ports = { new ServerPort("localhost", Port, credentials) }
                 };
 
                 server.Start();

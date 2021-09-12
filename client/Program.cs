@@ -8,6 +8,7 @@ using Prime;
 using Sqrt;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,15 @@ namespace client
         //static void Main(string[] args)
         static async Task Main(string[] args)
         {
-            Channel channel = new Channel(target, ChannelCredentials.Insecure);
+            // SSL Security
+            var caCrt = File.ReadAllText("ssl/ca.crt");
+            var clientCrt = File.ReadAllText("ssl/client.crt");
+            var clientKey = File.ReadAllText("ssl/client.key");
+            var channelCredential = new SslCredentials(caCrt,
+                new KeyCertificatePair(clientCrt, clientKey));
+
+            //Channel channel = new Channel(target, ChannelCredentials.Insecure);
+            Channel channel = new Channel("localhost", 50051, channelCredential);
 
             // channel.ConnectAsync().ContinueWith((task) =>
             await channel.ConnectAsync().ContinueWith((task) =>
@@ -189,28 +198,45 @@ namespace client
             //******************************************************************
             // Deadlines
             //******************************************************************
-            var client = new GreetingService.GreetingServiceClient(channel);
-            try
-            {
-                var request = new GreetDeadlinesRequest() { Name = "John" };
-                var response = client.GreetDeadlines(request,
-                    deadline: DateTime.UtcNow.AddMilliseconds(100)); // 500 [OK], 100 [DEADLINE]
-                Console.WriteLine(response.Result);
-            }
-            catch (RpcException e) when (e.StatusCode == StatusCode.DeadlineExceeded)
-            {
-                Console.WriteLine($"Error : {e.Status.Detail}");
+            //var client = new GreetingService.GreetingServiceClient(channel);
+            //try
+            //{
+            //    var request = new GreetDeadlinesRequest() { Name = "John" };
+            //    var response = client.GreetDeadlines(request,
+            //        deadline: DateTime.UtcNow.AddMilliseconds(100)); // 500 [OK], 100 [DEADLINE]
+            //    Console.WriteLine(response.Result);
+            //}
+            //catch (RpcException e) when (e.StatusCode == StatusCode.DeadlineExceeded)
+            //{
+            //    Console.WriteLine($"Error : {e.Status.Detail}");
 
-                //throw;
-            }
+            //    //throw;
+            //}
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //******************************************************************
+            // SSL Security for Unary API = 'DoSimpleGreet(client)'
+            //******************************************************************
+            var client = new GreetingService.GreetingServiceClient(channel);
+            DoSimpleGreet(client);
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
         }
 
-        // 3x TODO:
+        // 3x TODO: ONLY 2x (DoSimpleGreet() READY)
         public static void DoSimpleGreet(GreetingService.GreetingServiceClient client)
         {
-            //TODO:
+            var greeting = new Greeting()
+            {
+                FirstName = "Clement",
+                LastName = "Jean"
+            };
+
+            var request = new GreetingRequest() { Greeting = greeting };
+            var response = client.Greet(request);
+
+            Console.WriteLine(response.Result);
         }
         public static async Task DoManyGreetings(GreetingService.GreetingServiceClient client)
         {
@@ -252,6 +278,5 @@ namespace client
             await stream.RequestStream.CompleteAsync();
             await responseReaderTask;
         }
-
     }
 }
