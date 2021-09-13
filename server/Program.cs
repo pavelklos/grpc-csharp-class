@@ -2,6 +2,8 @@
 using Calculator;
 using Greet;
 using Grpc.Core;
+using Grpc.Reflection;
+using Grpc.Reflection.V1Alpha;
 using Max;
 using Prime;
 using Sqrt;
@@ -34,16 +36,26 @@ namespace server
                 var keypair = new KeyCertificatePair(serverCrt, serverKey);
                 var credentials = new SslServerCredentials(new List<KeyCertificatePair>() { keypair }, caCrt, true);
 
+                // gRPC C# Server Reflection
+                // https://github.com/grpc/grpc/blob/master/doc/csharp/server_reflection.md
+                // the reflection service will be aware of "Greeter" and "ServerReflection" services.
+                var reflectionServiceImpl = new ReflectionServiceImpl(
+                    GreetingService.Descriptor, ServerReflection.Descriptor);
+
+
                 server = new Server()
                 {
-                    Services = { GreetingService.BindService(new GreetingServiceImpl()) },
+                    //Services = { GreetingService.BindService(new GreetingServiceImpl()) },
+                    Services = { GreetingService.BindService(
+                        new GreetingServiceImpl()),
+                        ServerReflection.BindService(reflectionServiceImpl)},
                     //Services = { CalculatorService.BindService(new CalculatorServiceImpl()) },
                     //Services = { PrimeNumberService.BindService(new PrimeNumberServiceImpl()) },
                     //Services = { AverageService.BindService(new AverageServiceImpl()) },
                     //Services = { FindMaxService.BindService(new FindMaxServiceImpl()) },
                     //Services = { SqrtService.BindService(new SqrtServiceImpl()) },
-                    //Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
-                    Ports = { new ServerPort("localhost", Port, credentials) }
+                    Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
+                    //Ports = { new ServerPort("localhost", Port, credentials) }
                 };
 
                 server.Start();
