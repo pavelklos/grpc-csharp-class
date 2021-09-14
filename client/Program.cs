@@ -30,8 +30,9 @@ namespace client
             var channelCredential = new SslCredentials(caCrt,
                 new KeyCertificatePair(clientCrt, clientKey));
 
-            Channel channel = new Channel(target, ChannelCredentials.Insecure);
+            //Channel channel = new Channel(target, ChannelCredentials.Insecure);
             //Channel channel = new Channel("localhost", 50051, channelCredential);
+            Channel channel = new Channel("localhost", 50051, ChannelCredentials.Insecure);
 
             // channel.ConnectAsync().ContinueWith((task) =>
             await channel.ConnectAsync().ContinueWith((task) =>

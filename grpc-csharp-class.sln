@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{6603D7C0-EE1E-4541-8AF4-6F847AE4198F}"
 	ProjectSection(SolutionItems) = preProject
 		average.proto = average.proto
+		blog.proto = blog.proto
 		calculator.proto = calculator.proto
 		dummy.proto = dummy.proto
 		greeting.proto = greeting.proto
