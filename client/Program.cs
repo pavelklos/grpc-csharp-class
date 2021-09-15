@@ -1,4 +1,5 @@
 ﻿using Average;
+using Blog;
 using Calculator;
 using Dummy;
 using Greet;
@@ -219,10 +220,29 @@ namespace client
             //******************************************************************
             // SSL Security for Unary API = 'DoSimpleGreet(client)'
             //******************************************************************
-            var client = new GreetingService.GreetingServiceClient(channel);
-            DoSimpleGreet(client);
+            //var client = new GreetingService.GreetingServiceClient(channel);
+            //DoSimpleGreet(client);
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //******************************************************************
+            // BLOG by MongoDB
+            //******************************************************************
+            var client = new BlogService.BlogServiceClient(channel);
+            var request = new CreateBlogRequest()
+            {
+                Blog = new Blog.Blog()
+                {
+                    AuthorId = "Clement",
+                    Title = "New blog!",
+                    Content = "Hello world, this is a new blog"
+                }
+            };
+            var response = client.CreateBlog(request);
+            Console.WriteLine($"The blog with id '{response.Blog.Id}' was created!");
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
+
         }
 
         // 3x TODO: ONLY 2x (DoSimpleGreet() READY)
