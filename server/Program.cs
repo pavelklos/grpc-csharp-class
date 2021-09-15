@@ -1,4 +1,5 @@
 ﻿using Average;
+using Blog;
 using Calculator;
 using Greet;
 using Grpc.Core;
@@ -46,14 +47,15 @@ namespace server
                 server = new Server()
                 {
                     //Services = { GreetingService.BindService(new GreetingServiceImpl()) },
-                    Services = { GreetingService.BindService(
-                        new GreetingServiceImpl()),
-                        ServerReflection.BindService(reflectionServiceImpl)},
+                    //Services = { GreetingService.BindService(
+                    //    new GreetingServiceImpl()),
+                    //    ServerReflection.BindService(reflectionServiceImpl)},
                     //Services = { CalculatorService.BindService(new CalculatorServiceImpl()) },
                     //Services = { PrimeNumberService.BindService(new PrimeNumberServiceImpl()) },
                     //Services = { AverageService.BindService(new AverageServiceImpl()) },
                     //Services = { FindMaxService.BindService(new FindMaxServiceImpl()) },
                     //Services = { SqrtService.BindService(new SqrtServiceImpl()) },
+                    Services = { BlogService.BindService(new BlogServiceImpl()) },
                     Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
                     //Ports = { new ServerPort("localhost", Port, credentials) }
                 };
