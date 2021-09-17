@@ -49,6 +49,10 @@ namespace Blog {
     static readonly grpc::Marshaller<global::Blog.CreateBlogRequest> __Marshaller_blog_CreateBlogRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Blog.CreateBlogRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Blog.CreateBlogResponse> __Marshaller_blog_CreateBlogResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Blog.CreateBlogResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Blog.ReadBlogRequest> __Marshaller_blog_ReadBlogRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Blog.ReadBlogRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Blog.ReadBlogResponse> __Marshaller_blog_ReadBlogResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Blog.ReadBlogResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Blog.CreateBlogRequest, global::Blog.CreateBlogResponse> __Method_CreateBlog = new grpc::Method<global::Blog.CreateBlogRequest, global::Blog.CreateBlogResponse>(
@@ -57,6 +61,14 @@ namespace Blog {
         "CreateBlog",
         __Marshaller_blog_CreateBlogRequest,
         __Marshaller_blog_CreateBlogResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Blog.ReadBlogRequest, global::Blog.ReadBlogResponse> __Method_ReadBlog = new grpc::Method<global::Blog.ReadBlogRequest, global::Blog.ReadBlogResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ReadBlog",
+        __Marshaller_blog_ReadBlogRequest,
+        __Marshaller_blog_ReadBlogResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -76,6 +88,18 @@ namespace Blog {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Blog.CreateBlogResponse> CreateBlog(global::Blog.CreateBlogRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// ReadBlog : Unary
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Blog.ReadBlogResponse> ReadBlog(global::Blog.ReadBlogRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -157,6 +181,54 @@ namespace Blog {
       {
         return CallInvoker.AsyncUnaryCall(__Method_CreateBlog, null, options, request);
       }
+      /// <summary>
+      /// ReadBlog : Unary
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Blog.ReadBlogResponse ReadBlog(global::Blog.ReadBlogRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReadBlog(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// ReadBlog : Unary
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Blog.ReadBlogResponse ReadBlog(global::Blog.ReadBlogRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ReadBlog, null, options, request);
+      }
+      /// <summary>
+      /// ReadBlog : Unary
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Blog.ReadBlogResponse> ReadBlogAsync(global::Blog.ReadBlogRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReadBlogAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// ReadBlog : Unary
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Blog.ReadBlogResponse> ReadBlogAsync(global::Blog.ReadBlogRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ReadBlog, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override BlogServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -171,7 +243,8 @@ namespace Blog {
     public static grpc::ServerServiceDefinition BindService(BlogServiceBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_CreateBlog, serviceImpl.CreateBlog).Build();
+          .AddMethod(__Method_CreateBlog, serviceImpl.CreateBlog)
+          .AddMethod(__Method_ReadBlog, serviceImpl.ReadBlog).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -182,6 +255,7 @@ namespace Blog {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, BlogServiceBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_CreateBlog, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Blog.CreateBlogRequest, global::Blog.CreateBlogResponse>(serviceImpl.CreateBlog));
+      serviceBinder.AddMethod(__Method_ReadBlog, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Blog.ReadBlogRequest, global::Blog.ReadBlogResponse>(serviceImpl.ReadBlog));
     }
 
   }
