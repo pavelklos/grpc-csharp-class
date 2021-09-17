@@ -25,9 +25,21 @@ message ReadBlogResponse {
 	Blog blog = 1;
 }
 
+// UpdateBlog : Unary
+message UpdateBlogRequest {
+	Blog blog = 1;
+}
+message UpdateBlogResponse {
+	Blog blog = 1;
+}
+
 service BlogService {
 	// CreateBlog : Unary
 	rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse) {}
+	
 	// ReadBlog : Unary
 	rpc ReadBlog (ReadBlogRequest) returns (ReadBlogResponse) {}
+	
+	// UpdateBlog : Unary
+	rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse) {}
 }
