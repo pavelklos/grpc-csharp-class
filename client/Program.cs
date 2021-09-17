@@ -227,22 +227,43 @@ namespace client
 
             //******************************************************************
             // BLOG by MongoDB
+            // CreateBlog
+            //******************************************************************
+            //var client = new BlogService.BlogServiceClient(channel);
+            //var request = new CreateBlogRequest()
+            //{
+            //    Blog = new Blog.Blog()
+            //    {
+            //        AuthorId = "Clement",
+            //        Title = "New blog!",
+            //        Content = "Hello world, this is a new blog"
+            //    }
+            //};
+            //var response = client.CreateBlog(request);
+            //Console.WriteLine($"The blog with id '{response.Blog.Id}' was created!");
+            //channel.ShutdownAsync().Wait();
+            //Console.ReadKey();
+
+            //******************************************************************
+            // BLOG by MongoDB
+            // ReadBlog
             //******************************************************************
             var client = new BlogService.BlogServiceClient(channel);
-            var request = new CreateBlogRequest()
+            try
             {
-                Blog = new Blog.Blog()
+                var response = client.ReadBlog(new ReadBlogRequest()
                 {
-                    AuthorId = "Clement",
-                    Title = "New blog!",
-                    Content = "Hello world, this is a new blog"
-                }
-            };
-            var response = client.CreateBlog(request);
-            Console.WriteLine($"The blog with id '{response.Blog.Id}' was created!");
+                    BlogId = "61419179ec20fc1665334279" // Clement
+                });
+                Console.WriteLine(response.Blog.ToString());
+            }
+            catch (RpcException e)
+            {
+                Console.WriteLine(e.Status.Detail);
+                //throw;
+            }
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
-
         }
 
         // 3x TODO: ONLY 2x (DoSimpleGreet() READY)
