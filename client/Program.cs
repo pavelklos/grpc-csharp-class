@@ -227,41 +227,11 @@ namespace client
 
             //******************************************************************
             // BLOG by MongoDB
-            // CreateBlog
-            //******************************************************************
-            //var client = new BlogService.BlogServiceClient(channel);
-            //var request = new CreateBlogRequest()
-            //{
-            //    Blog = new Blog.Blog()
-            //    {
-            //        AuthorId = "Clement",
-            //        Title = "New blog!",
-            //        Content = "Hello world, this is a new blog"
-            //    }
-            //};
-            //var response = client.CreateBlog(request);
-            //Console.WriteLine($"The blog with id '{response.Blog.Id}' was created!");
-            //channel.ShutdownAsync().Wait();
-            //Console.ReadKey();
-
-            //******************************************************************
-            // BLOG by MongoDB
-            // ReadBlog
             //******************************************************************
             var client = new BlogService.BlogServiceClient(channel);
-            try
-            {
-                var response = client.ReadBlog(new ReadBlogRequest()
-                {
-                    BlogId = "61419179ec20fc1665334279" // Clement
-                });
-                Console.WriteLine(response.Blog.ToString());
-            }
-            catch (RpcException e)
-            {
-                Console.WriteLine(e.Status.Detail);
-                //throw;
-            }
+            var newBlog = CreateBlog(client);
+            //ReadBlog(client);
+            UpdateBlog(client, newBlog);
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
         }
@@ -288,7 +258,6 @@ namespace client
         {
             //TODO:
         }
-
         public static async Task DoGreetEveryone(GreetingService.GreetingServiceClient client)
         {
             var stream = client.GreetEveryone();
@@ -319,6 +288,58 @@ namespace client
 
             await stream.RequestStream.CompleteAsync();
             await responseReaderTask;
+        }
+
+        // BLOG
+        private static Blog.Blog CreateBlog(BlogService.BlogServiceClient client)
+        {
+            var request = new CreateBlogRequest()
+            {
+                Blog = new Blog.Blog()
+                {
+                    AuthorId = "Clement",
+                    Title = "New blog!",
+                    Content = "Hello world, this is a new blog"
+                }
+            };
+            var response = client.CreateBlog(request);
+            Console.WriteLine($"The blog with id '{response.Blog.Id}' was created!");
+            return response.Blog;
+        }
+        private static void ReadBlog(BlogService.BlogServiceClient client)
+        {
+            try
+            {
+                var response = client.ReadBlog(new ReadBlogRequest()
+                {
+                    BlogId = "61419179ec20fc1665334279" // Clement
+                });
+                Console.WriteLine(response.Blog.ToString());
+            }
+            catch (RpcException e)
+            {
+                Console.WriteLine(e.Status.Detail);
+                //throw;
+            }
+        }
+        private static void UpdateBlog(BlogService.BlogServiceClient client, Blog.Blog blog)
+        {
+            try
+            {
+                blog.AuthorId = "Updated author";
+                blog.Title = "Updated title";
+                blog.Content = "Updated content";
+                var response = client.UpdateBlog(new UpdateBlogRequest()
+                {
+                    Blog = blog
+                });
+                Console.WriteLine(response.Blog.ToString());
+            }
+            catch (RpcException e)
+            {
+                Console.WriteLine(e.Status.Detail);
+                //throw;
+            }
         }
     }
 }
