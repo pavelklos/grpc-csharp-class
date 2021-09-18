@@ -41,6 +41,12 @@ message DeleteBlogResponse {
 	string blog_id = 1;
 }
 
+// ListBlog : Server Streaming
+message ListBlogRequest {}
+message ListBlogResponse {
+	Blog blog = 1;
+}
+
 service BlogService {
 	// CreateBlog : Unary
 	rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse) {}
@@ -53,4 +59,7 @@ service BlogService {
 
 	// DeleteBlog : Unary
 	rpc DeleteBlog (DeleteBlogRequest) returns (DeleteBlogResponse) {}
+
+	// ListBlog : Server Streaming
+	rpc ListBlog (ListBlogRequest) returns (stream ListBlogResponse) {}
 }
