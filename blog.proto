@@ -33,6 +33,14 @@ message UpdateBlogResponse {
 	Blog blog = 1;
 }
 
+// DeleteBlog : Unary
+message DeleteBlogRequest {
+	string blog_id = 1;
+}
+message DeleteBlogResponse {
+	string blog_id = 1;
+}
+
 service BlogService {
 	// CreateBlog : Unary
 	rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse) {}
@@ -42,4 +50,7 @@ service BlogService {
 	
 	// UpdateBlog : Unary
 	rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse) {}
+
+	// DeleteBlog : Unary
+	rpc DeleteBlog (DeleteBlogRequest) returns (DeleteBlogResponse) {}
 }
