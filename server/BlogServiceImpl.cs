@@ -103,7 +103,7 @@ namespace server
 
             var result = mongoCollection.DeleteOne(filter);
 
-            if (result.DeletedCount == 1)
+            if (result.DeletedCount == 0)
             {
                 throw new RpcException(new Status(StatusCode.NotFound, $"The blog id '{blogId}' wasn't find"));
             }
