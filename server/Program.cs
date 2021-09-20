@@ -40,8 +40,10 @@ namespace server
                 // gRPC C# Server Reflection
                 // https://github.com/grpc/grpc/blob/master/doc/csharp/server_reflection.md
                 // the reflection service will be aware of "Greeter" and "ServerReflection" services.
+                //var reflectionServiceImpl = new ReflectionServiceImpl(
+                //    GreetingService.Descriptor, ServerReflection.Descriptor);
                 var reflectionServiceImpl = new ReflectionServiceImpl(
-                    GreetingService.Descriptor, ServerReflection.Descriptor);
+                    BlogService.Descriptor, ServerReflection.Descriptor);
 
 
                 server = new Server()
@@ -55,7 +57,10 @@ namespace server
                     //Services = { AverageService.BindService(new AverageServiceImpl()) },
                     //Services = { FindMaxService.BindService(new FindMaxServiceImpl()) },
                     //Services = { SqrtService.BindService(new SqrtServiceImpl()) },
-                    Services = { BlogService.BindService(new BlogServiceImpl()) },
+                    //Services = { BlogService.BindService(new BlogServiceImpl()) },
+                    Services = { BlogService.BindService(
+                        new BlogServiceImpl()),
+                        ServerReflection.BindService(reflectionServiceImpl)},
                     Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
                     //Ports = { new ServerPort("localhost", Port, credentials) }
                 };
